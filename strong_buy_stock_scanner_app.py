@@ -1,7 +1,6 @@
 import math
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 import streamlit as st
 import yfinance as yf
 
@@ -334,30 +333,5 @@ if run_scan:
             use_container_width=True
         )
 
-        st.markdown("### Top Match Chart")
-        top_symbol = results.iloc[0]["Ticker"]
-        top_hist, top_info = load_stock(top_symbol, "6mo", "1d")
-        top_df = add_indicators(top_hist)
-
-        fig = go.Figure()
-        fig.add_trace(go.Candlestick(
-            x=top_df.index,
-            open=top_df["Open"],
-            high=top_df["High"],
-            low=top_df["Low"],
-            close=top_df["Close"],
-            name="Candles"
-        ))
-        fig.add_trace(go.Scatter(x=top_df.index, y=top_df["SMA20"], name="SMA20", line=dict(width=1)))
-        fig.add_trace(go.Scatter(x=top_df.index, y=top_df["SMA50"], name="SMA50", line=dict(width=1)))
-        fig.add_trace(go.Scatter(x=top_df.index, y=top_df["SMA200"], name="SMA200", line=dict(width=1)))
-        fig.update_layout(
-            height=520,
-            template="plotly_dark",
-            margin=dict(l=10, r=10, t=25, b=10),
-            xaxis_rangeslider_visible=False,
-            title=f"{top_symbol} — Top Scanner Result"
-        )
-        st.plotly_chart(fig, use_container_width=True)
 else:
     st.info("Paste or edit your ticker list in the sidebar, then click Run Strong Buy Scanner.")
