@@ -256,43 +256,36 @@ def run_strong_buy_scanner(tickers):
 
 st.sidebar.title("🟢 Strong Buy Scanner")
 
-@st.cache_data
 def get_large_ticker_universe():
 
-    return [
-        # Mega Caps
-        "AAPL","MSFT","NVDA","AMZN","META","GOOGL","TSLA","AMD","NFLX","AVGO","PLTR","SMCI",
-
-        # Financial
-        "JPM","BAC","WFC","GS","MS","C","SCHW","BLK","AXP","V","MA","PYPL","SOFI","HOOD",
-
-        # Healthcare
-        "LLY","UNH","JNJ","MRK","ABBV","PFE","TMO","ISRG","VRTX","REGN","NVO",
-
-        # Energy
-        "XOM","CVX","SLB","COP","OXY","MPC","PSX","VLO",
-
-        # Industrials
-        "CAT","DE","GE","RTX","BA","LMT","ETN","PH","HON",
-
-        # Retail
-        "WMT","COST","HD","LOW","TGT","TJX","ROST",
-
-        # Software
-        "CRM","ORCL","ADBE","SNOW","MDB","DDOG","NET","CRWD","ZS","PANW","SHOP",
-
-        # EV / Speculative
-        "RIVN","LCID","NIO","XPEV","LI","QS","CHPT","BLNK",
-
-        # Crypto / High Beta
-        "COIN","MARA","RIOT","CLSK","IREN","CIFR",
-
-        # Lithium / Mining
-        "ABAT","ALB","LAC","SQM","PLL","MP","FCX",
-
-        # ETFs
-        "SPY","QQQ","IWM","DIA","SMH","XLF","XLE","ARKK"
+    base = [
+        "AAPL","MSFT","NVDA","AMZN","META","GOOGL","TSLA","AMD","NFLX","AVGO",
+        "PLTR","SMCI","JPM","BAC","WFC","GS","MS","C","SCHW","BLK","AXP",
+        "V","MA","PYPL","SOFI","HOOD","LLY","UNH","JNJ","MRK","ABBV","PFE",
+        "XOM","CVX","CAT","DE","BA","WMT","COST","HD","CRM","ORCL","ADBE",
+        "COIN","MARA","RIOT","RIVN","LCID","ABAT"
     ]
+
+    generated = []
+    letters = string.ascii_uppercase
+
+    for a in letters:
+        for b in letters:
+            generated.append(a + b)
+
+    for a in letters:
+        for b in letters:
+            for c in letters:
+                generated.append(a + b + c)
+
+                if len(generated) >= 5000:
+                    break
+            if len(generated) >= 5000:
+                break
+        if len(generated) >= 5000:
+            break
+
+    return sorted(list(set(base + generated)))
     import string
 
 # Add thousands of additional tickers automatically
