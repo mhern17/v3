@@ -244,34 +244,60 @@ def signal_engine(df, info):
 # ---------- MASSIVE TICKER UNIVERSE ----------
 def get_large_ticker_universe():
 
-    base = [
-        "AAPL","MSFT","NVDA","AMZN","META","GOOGL","TSLA","AMD",
-        "NFLX","AVGO","PLTR","SMCI","JPM","BAC","WFC","GS","MS",
-        "C","SCHW","BLK","AXP","V","MA","PYPL","SOFI","HOOD",
-        "LLY","UNH","JNJ","MRK","ABBV","PFE","XOM","CVX",
-        "CAT","DE","BA","WMT","COST","HD","CRM","ORCL",
-        "ADBE","COIN","MARA","RIOT","RIVN","LCID","ABAT"
+    popular = [
+
+        # Mega Cap Tech
+        "AAPL","MSFT","NVDA","AMZN","META","GOOGL","TSLA","AMD","NFLX","AVGO",
+        "PLTR","SMCI","CRM","ORCL","ADBE","INTC","QCOM","MU","AMAT","LRCX",
+
+        # AI / Growth
+        "AI","BBAI","SOUN","PATH","UPST","IONQ","RGTI","QBTS","APP","DUOL",
+
+        # Crypto
+        "COIN","MARA","RIOT","CLSK","IREN","CIFR","MSTR",
+
+        # EV
+        "RIVN","LCID","NIO","LI","XPEV","QS","CHPT",
+
+        # Healthcare
+        "LLY","NVO","UNH","JNJ","MRK","ABBV","PFE",
+
+        # Financial
+        "JPM","BAC","GS","MS","V","MA","PYPL","SOFI","HOOD",
+
+        # Consumer
+        "WMT","COST","HD","LOW","TGT","NKE","SBUX","CMG",
+
+        # Energy
+        "XOM","CVX","COP","SLB","OXY","DVN",
+
+        # ETFs
+        "SPY","QQQ","IWM","DIA","SMH","SOXX","ARKK"
     ]
 
-    generated = []
     letters = string.ascii_uppercase
 
+    generated = []
+
+    # 2-letter combos
     for a in letters:
         for b in letters:
             generated.append(a + b)
 
+    # 3-letter combos
     for a in letters:
         for b in letters:
             for c in letters:
                 generated.append(a + b + c)
 
-    universe = sorted(list(set(base + generated)))
+    # Mix everything together
+    universe = list(set(popular + generated))
 
-    # Spread the scan across the alphabet instead of only A tickers
     np.random.seed(42)
     np.random.shuffle(universe)
 
-    return universe[:5000]
+    # Return about 2000
+    return universe[:2000]
 
 
 # ---------- SIDEBAR ----------
