@@ -254,37 +254,24 @@ def get_large_ticker_universe():
     ]
 
     generated = []
-
     letters = string.ascii_uppercase
 
-    # -------------------------
-    # 2-letter combinations
-    # -------------------------
     for a in letters:
         for b in letters:
-
             generated.append(a + b)
 
-    # -------------------------
-    # 3-letter combinations
-    # -------------------------
     for a in letters:
         for b in letters:
             for c in letters:
-
                 generated.append(a + b + c)
 
-                # Limit size for performance
-                if len(generated) >= 5000:
-                    break
+    universe = sorted(list(set(base + generated)))
 
-            if len(generated) >= 5000:
-                break
+    # Spread the scan across the alphabet instead of only A tickers
+    np.random.seed(42)
+    np.random.shuffle(universe)
 
-        if len(generated) >= 5000:
-            break
-
-    return sorted(list(set(base + generated)))
+    return universe[:5000]
 
 
 # ---------- SIDEBAR ----------
