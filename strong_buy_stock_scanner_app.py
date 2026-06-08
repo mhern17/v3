@@ -253,41 +253,53 @@ def run_strong_buy_scanner(tickers):
 
 st.sidebar.title("🟢 Strong Buy Scanner")
 
-default_tickers = """AAPL
-MSFT
-NVDA
-AMD
-META
-GOOGL
-AMZN
-TSLA
-NFLX
-PLTR
-SMCI
-AVGO
-CRM
-ORCL
-ADBE
-COST
-WMT
-LLY
-NVO
-UNH
-JPM
-BAC
-GS
-V
-MA
-COIN
-MARA
-RIOT
-HOOD
-SOFI
-RIVN
-LCID
-ABAT"""
+@st.cache_data
+def get_large_ticker_universe():
 
-scanner_symbols = st.sidebar.text_area("Ticker universe", value=default_tickers, height=420)
+    return [
+        # Mega Caps
+        "AAPL","MSFT","NVDA","AMZN","META","GOOGL","TSLA","AMD","NFLX","AVGO","PLTR","SMCI",
+
+        # Financial
+        "JPM","BAC","WFC","GS","MS","C","SCHW","BLK","AXP","V","MA","PYPL","SOFI","HOOD",
+
+        # Healthcare
+        "LLY","UNH","JNJ","MRK","ABBV","PFE","TMO","ISRG","VRTX","REGN","NVO",
+
+        # Energy
+        "XOM","CVX","SLB","COP","OXY","MPC","PSX","VLO",
+
+        # Industrials
+        "CAT","DE","GE","RTX","BA","LMT","ETN","PH","HON",
+
+        # Retail
+        "WMT","COST","HD","LOW","TGT","TJX","ROST",
+
+        # Software
+        "CRM","ORCL","ADBE","SNOW","MDB","DDOG","NET","CRWD","ZS","PANW","SHOP",
+
+        # EV / Speculative
+        "RIVN","LCID","NIO","XPEV","LI","QS","CHPT","BLNK",
+
+        # Crypto / High Beta
+        "COIN","MARA","RIOT","CLSK","IREN","CIFR",
+
+        # Lithium / Mining
+        "ABAT","ALB","LAC","SQM","PLL","MP","FCX",
+
+        # ETFs
+        "SPY","QQQ","IWM","DIA","SMH","XLF","XLE","ARKK"
+    ]
+    import string
+
+# Add thousands of additional tickers automatically
+for first in string.ascii_uppercase:
+    for second in string.ascii_uppercase:
+        for third in string.ascii_uppercase:
+            ticker = first + second + third
+            get_large_ticker_universe().append(ticker)
+
+scanner_symbols = st.sidebar.text_area("Ticker universe", value="\n".join(get_large_ticker_universe()),, height=420)
 st.sidebar.caption("Educational model only. Not financial advice.")
 
 st.markdown("<div class='big-title'>🟢 Strong Buy Stock Scanner</div>", unsafe_allow_html=True)
