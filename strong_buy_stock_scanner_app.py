@@ -296,40 +296,36 @@ def get_large_ticker_universe():
     import string
 
 # Add thousands of additional tickers automatically
-@st.cache_data
-def get_large_ticker_universe():
+generated = []
 
-    base = [
-        "AAPL","MSFT","NVDA","AMZN","META","GOOGL","TSLA","AMD","NFLX","AVGO",
-        "PLTR","SMCI","JPM","BAC","WFC","GS","MS","C","SCHW","BLK","AXP",
-        "V","MA","PYPL","SOFI","HOOD","LLY","UNH","JNJ","MRK","ABBV","PFE",
-        "TMO","ISRG","VRTX","REGN","NVO","XOM","CVX","SLB","COP","OXY",
-        "MPC","PSX","VLO","CAT","DE","GE","RTX","BA","LMT","ETN","PH","HON",
-        "WMT","COST","HD","LOW","TGT","TJX","ROST","CRM","ORCL","ADBE",
-        "SNOW","MDB","DDOG","NET","CRWD","ZS","PANW","SHOP","RIVN","LCID",
-        "NIO","XPEV","LI","QS","CHPT","BLNK","COIN","MARA","RIOT","CLSK",
-        "IREN","CIFR","ABAT","ALB","LAC","SQM","PLL","MP","FCX","SPY",
-        "QQQ","IWM","DIA","SMH","XLF","XLE","ARKK"
-    ]
+letters = string.ascii_uppercase
 
-    # Generate ~1000 synthetic ticker combinations
-    generated = []
+# -------------------------
+# 2-letter combinations
+# -------------------------
+for a in letters:
+    for b in letters:
 
-    letters = string.ascii_uppercase
+        generated.append(a + b)
 
-    for a in letters:
-        for b in letters:
-            ticker = a + b
+# -------------------------
+# 3-letter combinations
+# -------------------------
+for a in letters:
+    for b in letters:
+        for c in letters:
 
-            generated.append(ticker)
+            generated.append(a + b + c)
 
-            if len(generated) >= 1000:
+            # Stop around 5000 generated tickers
+            if len(generated) >= 5000:
                 break
 
-        if len(generated) >= 1000:
+        if len(generated) >= 5000:
             break
 
-    return list(set(base + generated))
+    if len(generated) >= 5000:
+        break
 
 scanner_symbols = st.sidebar.text_area("Ticker universe", value="\n".join(get_large_ticker_universe()), height=420)
 st.sidebar.caption("Educational model only. Not financial advice.")
