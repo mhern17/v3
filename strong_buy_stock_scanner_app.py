@@ -296,11 +296,40 @@ def get_large_ticker_universe():
     import string
 
 # Add thousands of additional tickers automatically
-for first in string.ascii_uppercase:
-    for second in string.ascii_uppercase:
-        for third in string.ascii_uppercase:
-            ticker = first + second + third
-            get_large_ticker_universe().append(ticker)
+@st.cache_data
+def get_large_ticker_universe():
+
+    base = [
+        "AAPL","MSFT","NVDA","AMZN","META","GOOGL","TSLA","AMD","NFLX","AVGO",
+        "PLTR","SMCI","JPM","BAC","WFC","GS","MS","C","SCHW","BLK","AXP",
+        "V","MA","PYPL","SOFI","HOOD","LLY","UNH","JNJ","MRK","ABBV","PFE",
+        "TMO","ISRG","VRTX","REGN","NVO","XOM","CVX","SLB","COP","OXY",
+        "MPC","PSX","VLO","CAT","DE","GE","RTX","BA","LMT","ETN","PH","HON",
+        "WMT","COST","HD","LOW","TGT","TJX","ROST","CRM","ORCL","ADBE",
+        "SNOW","MDB","DDOG","NET","CRWD","ZS","PANW","SHOP","RIVN","LCID",
+        "NIO","XPEV","LI","QS","CHPT","BLNK","COIN","MARA","RIOT","CLSK",
+        "IREN","CIFR","ABAT","ALB","LAC","SQM","PLL","MP","FCX","SPY",
+        "QQQ","IWM","DIA","SMH","XLF","XLE","ARKK"
+    ]
+
+    # Generate ~1000 synthetic ticker combinations
+    generated = []
+
+    letters = string.ascii_uppercase
+
+    for a in letters:
+        for b in letters:
+            ticker = a + b
+
+            generated.append(ticker)
+
+            if len(generated) >= 1000:
+                break
+
+        if len(generated) >= 1000:
+            break
+
+    return list(set(base + generated))
 
 scanner_symbols = st.sidebar.text_area("Ticker universe", value="\n".join(get_large_ticker_universe()), height=420)
 st.sidebar.caption("Educational model only. Not financial advice.")
