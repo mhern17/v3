@@ -299,7 +299,7 @@ for first in string.ascii_uppercase:
             ticker = first + second + third
             get_large_ticker_universe().append(ticker)
 
-scanner_symbols = st.sidebar.text_area("Ticker universe", value="\n".join(get_large_ticker_universe()),, height=420)
+scanner_symbols = st.sidebar.text_area("Ticker universe", value="\n".join(get_large_ticker_universe()), height=420)
 st.sidebar.caption("Educational model only. Not financial advice.")
 
 st.markdown("<div class='big-title'>🟢 Strong Buy Stock Scanner</div>", unsafe_allow_html=True)
